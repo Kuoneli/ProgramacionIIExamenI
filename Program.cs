@@ -27,7 +27,7 @@ do
     Console.Clear();
     try
     {
-        Console.WriteLine("Selecccione de las siguientes opciones:\n1-Iniciar Vectores\n2-Incluir estudiantes\n3-Consultar Estudiantes\n4-Modificar Estudiantes\n5-Eliminar Estudiantes\n6-Submenu Reportes\n7-Salir");
+        Console.WriteLine("Selecccione de las siguientes opciones:\n1-Agregar Pacientes\n2-Agregar Medicamentos\n3-AsignarTratamientos\n4-Consultar\n5-Salir");
         menu = int.Parse(Console.ReadLine());
         switch (menu)
         {
