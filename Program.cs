@@ -1,25 +1,21 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿
 
-Console.WriteLine("Hello, World!");
 //Paciente debe poder agregar numero de cedula y la busqueda tiene que ser por numero de cedula
 
 //Informacion del paciente
-string[] nombre = new string[int.MaxValue], direccion = new string[int.MaxValue], tipoSangre = new string[int.MaxValue];
-int[] cedula = new int [int.MaxValue], telefono = new int[int.MaxValue], fechaNacimiento = new int[int.MaxValue];
+string[] nombre = new string[20], direccion = new string[20], tipoSangre = new string[20], fechaNacimiento = new string[20];
+int[] cedula = new int[20], telefono = new int[20];
 
 //Variables para medicamentos.
-int[] codigoMed = new int[int.MaxValue], cantidadMed = new int[int.MaxValue];
-string[] nombreMed = new string[int.MaxValue];
+int[] codigoMed = new int[20], cantidadMed = new int[20];
+string[] nombreMed = new string[20];
 
 //Asignaciones de tratamiento
-string[] tratamiento = new string[int.MaxValue];
+string[] tratamiento = new string[20];
 
 //todas las demas variables
-int menu = 0, seleccion = 0, contador = 0, contadorMed = 0;
+int menu = 0, seleccion = 0, contador = 0, contadorMed = 0, edad = 0;
 bool error = false;
-
 // Main
 Console.WriteLine("Sistema de Gestion de Pacientes y consultas medicas");
 do
@@ -35,7 +31,7 @@ do
                 AgregarPaciente();
                 break;
             case 2:
-                Medicamento();   
+                Medicamento();
                 break;
             case 3:
                 AsignarTratamiento();
@@ -57,7 +53,7 @@ do
         Console.WriteLine("No se admiten letras\nIntente de nuevo\n");
 
     }
-} while (menu != 7);
+} while (menu != 5);
 
 //Funciones
 void AgregarPaciente()
@@ -104,15 +100,17 @@ void AgregarPaciente()
         Console.WriteLine("Ingrese el Tipo de Sangre del Paciente: ");
         tipoSangre[contador] = Console.ReadLine();
 
-        Console.WriteLine("Ingrese el Tipo de Sangre del Paciente: ");
-        direccion[contador] = Console.ReadLine();
         do
         {
             try
             {
-                Console.WriteLine("Ingrese el numero de telefono del Paciente (sin guiones): ");
-                fechaNacimiento[contador] = Convert.ToInt32(Console.ReadLine());
-                error = false;
+                Console.WriteLine("Ingrese la fecha de nacimiento");
+                fechaNacimiento[contador] = Console.ReadLine();
+                DateTime fecha = DateTime.Parse(fechaNacimiento[contador]);
+
+                edad = DateTime.MinValue.AddDays(DateTime.Now.Subtract(fecha).TotalHours / 24 - 1).Year - 1;
+
+error = false;
             }
             catch (Exception)
             {
@@ -122,81 +120,6 @@ void AgregarPaciente()
             contador++;
         } while (error == true);
 
-    }
-
-void Consultas()
-        {
-            do
-            {
-                try
-                {
-                    Console.WriteLine("Seleccione de las siguientes opcines de Reportes\n1-Estudiantes por Condiciones\n2-Todos los Datos\n3-Regresar a menu principal.");
-                    menu = int.Parse(Console.ReadLine());
-                    if (menu == 1)
-                    {
-                        Console.WriteLine("Estudiante\n1-Aprobados\n2-Reprobados\n3-Aplazados\n");
-
-                    }
-                    else if (menu == 2)
-                    {
-                    }
-                    else if (menu == 3)
-                    {
-                        Console.WriteLine("Regrasando al menu principal\n");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Opcion Invalida\nIntente de nuevo\n");
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("No se admiten letras\nIntente de nuevo\n");
-                }
-            } while (menu != 3);
-        }
-    }
-
-void Medicamento()
-{
-    Console.WriteLine("Digite la cantidad de Medicamentos a ingresar: ");
-    seleccion = Convert.ToInt32(Console.ReadLine());
-    for (int x = 0; x < seleccion; x++)
-    {
-
-        do
-        {
-            try
-            {
-                Console.WriteLine("Ingrese el codigo del Medicamento: ");
-                codigoMed[contadorMed] = Convert.ToInt32(Console.ReadLine());
-                error = false;
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Letras no son permitidas\n");
-                error = true;
-            }
-
-        } while (error == true);
-
-        Console.WriteLine("Ingrese el nombre del Paciente: ");
-        nombreMed[contadorMed] = Console.ReadLine();
-
-        do
-        {
-            try
-            {
-                Console.WriteLine("Ingrese el numero de telefono del Paciente (sin guiones): ");
-                cantidadMed[contadorMed] = Convert.ToInt32(Console.ReadLine());
-                error = false;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Favor no utilizar letras\n");
-                error = true;
-            }
-        } while (error == true);
     }
 }
 
@@ -241,7 +164,49 @@ void AsignarTratamiento()
             }
         } while (error == true);
     }
+}
 
+void Medicamento()
+{
+    Console.WriteLine("Digite la cantidad de Medicamentos a ingresar: ");
+    seleccion = Convert.ToInt32(Console.ReadLine());
+    for (int x = 0; x < seleccion; x++)
+    {
+
+        do
+        {
+            try
+            {
+                Console.WriteLine("Ingrese el codigo del Medicamento: ");
+                codigoMed[contadorMed] = Convert.ToInt32(Console.ReadLine());
+                error = false;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Letras no son permitidas\n");
+                error = true;
+            }
+
+        } while (error == true);
+
+        Console.WriteLine("Ingrese el nombre del Paciente: ");
+        nombreMed[contadorMed] = Console.ReadLine();
+
+        do
+        {
+            try
+            {
+                Console.WriteLine("Ingrese el numero de telefono del Paciente (sin guiones): ");
+                cantidadMed[contadorMed] = Convert.ToInt32(Console.ReadLine());
+                error = false;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Favor no utilizar letras\n");
+                error = true;
+            }
+        } while (error == true);
+    }
 }
 
 void Consultas()
@@ -250,29 +215,27 @@ void Consultas()
     {
         try
         {
-            Console.WriteLine("Seleccione de las siguientes opcines de Reportes\n1-Total de paciente Ingresados\n2-Medicamentos recetados.\n3-Cantidad de Pacientes agrupados por edad.\nPacientes y consultas ordenados por nombre");
+            Console.WriteLine("Seleccione de las siguientes opcines de Reportes\n1-Cantidad de pacientes registrados\n2-Lista de Medicamentos Recetados\n3-Cantidad de pacientes agrupados por edad.\n4-Pacientes ordenados por nombre.\n5-Salir");
             menu = int.Parse(Console.ReadLine());
-            if (menu == 1)
+            switch (menu)
             {
-                Console.WriteLine($"Cantidad de pacientes ingresados es: {contador+1}");
+                case 1:
+                    Console.WriteLine($"Cantidad de pacientes ingresados es: {contador + 1}");
 
-            }
-            else if (menu == 2)
-            {
-            }
-            else if (menu == 3)
-            {
-                Console.WriteLine("Regrasando al menu principal\n");
-            }
-            else
-            {
-                Console.WriteLine("Opcion Invalida\nIntente de nuevo\n");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
             }
         }
         catch (FormatException)
         {
             Console.WriteLine("No se admiten letras\nIntente de nuevo\n");
         }
-    } while (menu != 3);
+    } while (menu != 5);
 }
-  
