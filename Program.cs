@@ -3,6 +3,8 @@
 //Paciente debe poder agregar numero de cedula y la busqueda tiene que ser por numero de cedula
 
 //Informacion del paciente
+using System.Xml;
+
 string[] nombre = new string[20], direccion = new string[20], tipoSangre = new string[20], fechaNacimiento = new string[20];
 int[] cedula = new int[20], telefono = new int[20];
 
@@ -11,10 +13,10 @@ int[] codigoMed = new int[20], cantidadMed = new int[20];
 string[] nombreMed = new string[20];
 
 //Asignaciones de tratamiento
-string[] tratamiento = new string[20];
+string[] cedulaTratamiento = new string[20];
 
 //todas las demas variables
-int menu = 0, seleccion = 0, contador = 0, contadorMed = 0, edad = 0;
+int menu = 0, seleccion = 0, contador = 0, contadorMed = 0, edad = 0, contadorTrat = 0;
 bool error = false;
 // Main
 Console.WriteLine("Sistema de Gestion de Pacientes y consultas medicas");
@@ -104,13 +106,13 @@ void AgregarPaciente()
         {
             try
             {
-                Console.WriteLine("Ingrese la fecha de nacimiento");
+                Console.WriteLine("Ingrese la fecha de nacimiento en formato (Año-mes-dia");
                 fechaNacimiento[contador] = Console.ReadLine();
+
                 DateTime fecha = DateTime.Parse(fechaNacimiento[contador]);
-
                 edad = DateTime.MinValue.AddDays(DateTime.Now.Subtract(fecha).TotalHours / 24 - 1).Year - 1;
-
-error = false;
+                Console.WriteLine($"Su edad edad es: {edad}");
+                error = false;
             }
             catch (Exception)
             {
@@ -120,50 +122,14 @@ error = false;
             contador++;
         } while (error == true);
 
+       
+
     }
 }
 
 void AsignarTratamiento()
 {
-    Console.WriteLine("Digite la cantidad de Tratamientos a ingresar: ");
-    seleccion = Convert.ToInt32(Console.ReadLine());
-    for (int x = 0; x < seleccion; x++)
-    {
-
-        do
-        {
-            try
-            {
-                Console.WriteLine("Ingrese el codigo del Medicamento: ");
-                codigoMed[contadorMed] = Convert.ToInt32(Console.ReadLine());
-                error = false;
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Letras no son permitidas\n");
-                error = true;
-            }
-
-        } while (error == true);
-
-        Console.WriteLine("Ingrese el nombre del Paciente: ");
-        nombreMed[contadorMed] = Console.ReadLine();
-
-        do
-        {
-            try
-            {
-                Console.WriteLine("Ingrese el numero de telefono del Paciente (sin guiones): ");
-                cantidadMed[contadorMed] = Convert.ToInt32(Console.ReadLine());
-                error = false;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Favor no utilizar letras\n");
-                error = true;
-            }
-        } while (error == true);
-    }
+    
 }
 
 void Medicamento()
@@ -215,7 +181,7 @@ void Consultas()
     {
         try
         {
-            Console.WriteLine("Seleccione de las siguientes opcines de Reportes\n1-Cantidad de pacientes registrados\n2-Lista de Medicamentos Recetados\n3-Cantidad de pacientes agrupados por edad.\n4-Pacientes ordenados por nombre.\n5-Salir");
+            Console.WriteLine("Seleccione de las siguientes opcines de Reportes\n1-Cantidad de pacientes registrados\n2-Lista de Medicamentos Recetados\n3-Cantidad de pacientes agrupados por edad.\n4-Pacientes ordenados por nombre.\n6-Salir");
             menu = int.Parse(Console.ReadLine());
             switch (menu)
             {
@@ -229,6 +195,9 @@ void Consultas()
                     break;
                 case 4:
                     break;
+                case 6:
+                    Console.WriteLine("Saliendo del Sistema");
+                    break;
                 default:
                     break;
             }
@@ -237,5 +206,5 @@ void Consultas()
         {
             Console.WriteLine("No se admiten letras\nIntente de nuevo\n");
         }
-    } while (menu != 5);
+    } while (menu != 6);
 }
