@@ -149,6 +149,8 @@ void AsignarTratamiento()
                 foreach (string item in lista)
                 { Console.WriteLine(item); }
                 medicamentosRecetados[i] = Console.ReadLine();
+                Console.WriteLine("Ingrese la cantidad de medicamento a recetar");
+                cantidadMedRecetado[i] = int.Parse(Console.ReadLine());
 
             }
             else
