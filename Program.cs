@@ -12,11 +12,13 @@ int[] cedula = new int[20], telefono = new int[20];
 int[] codigoMed = new int[20], cantidadMed = new int[20];
 string[] nombreMed = new string[20];
 
+
 //Asignaciones de tratamiento
-string[] cedulaTratamiento = new string[20];
+string[] medicamentosRecetados = new string[20];
+int[] cantidadMedRecetado = new int[20];
 
 //todas las demas variables
-int menu = 0, seleccion = 0, contador = 0, contadorMed = 0, edad = 0, contadorTrat = 0;
+int menu = 0, seleccion = 0, contador = 0, contadorMed = 0, edad = 0, contadorTrat = 0, busqueda = 0, indice= 0;
 bool error = false;
 // Main
 Console.WriteLine("Sistema de Gestion de Pacientes y consultas medicas");
@@ -119,16 +121,43 @@ void AgregarPaciente()
                 Console.WriteLine("Favor no utilizar letras\n");
                 error = true;
             }
-            contador++;
         } while (error == true);
-
-       
-
+        contador++;
     }
 }
 
 void AsignarTratamiento()
 {
+
+    if (contadorMed == 0)
+    {
+        Console.WriteLine("No hay medicamentos en el sistema para asignar.\n Ingrese medicamentos en la base de datos.");
+    }
+    else
+    {
+        busqueda = int.Parse("Ingrese el numero de cedula del paciente al que desea asignar tratamiento");
+        for (int i = 0; i < contador; i++)
+        {
+            if (busqueda == cedula[i])
+            {
+            
+                Console.WriteLine($"Asignando tratamiento a {nombre[i]}");
+                Console.WriteLine("Que medicamento quiere agregar");
+                HashSet<string> set = new HashSet<string>(medicamentosRecetados);
+                string[] lista = new string[set.Count];
+                set.CopyTo(lista);
+                foreach (string item in lista)
+                { Console.WriteLine(item); }
+                medicamentosRecetados[i] = Console.ReadLine();
+
+            }
+            else
+            {
+                Console.WriteLine("Numero de Cedula no concuerda con ningun paciente");
+            }
+
+        }
+    }
     
 }
 
@@ -157,6 +186,8 @@ void Medicamento()
 
         Console.WriteLine("Ingrese el nombre del Paciente: ");
         nombreMed[contadorMed] = Console.ReadLine();
+        nombreMed[contador].ToUpper();
+
 
         do
         {
@@ -172,6 +203,7 @@ void Medicamento()
                 error = true;
             }
         } while (error == true);
+        contadorMed++;
     }
 }
 
@@ -190,15 +222,23 @@ void Consultas()
 
                     break;
                 case 2:
+                    Console.WriteLine("Lista de Medicamentos Recetados");
+                    HashSet<string> set = new HashSet<string>(medicamentosRecetados);
+                    string[] lista = new string[set.Count]; 
+                    set.CopyTo(lista);
+                    foreach (string item in lista)
+                    { Console.WriteLine(item); }
                     break;
                 case 3:
                     break;
                 case 4:
                     break;
+                    //Tuve que usar opcion 6 porque 5 concordaba con el menu principal y entonces lo sacaba total del sistema, con 6 lo devuelve al menu principal
                 case 6:
                     Console.WriteLine("Saliendo del Sistema");
                     break;
                 default:
+                    Console.WriteLine("Opcion no valida");
                     break;
             }
         }
